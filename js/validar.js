@@ -14,7 +14,8 @@ var emailHelp = document.querySelector("#inputEmailHelp");
 var senha = document.querySelector("#inputPassword");
 var senhaHelp = document.querySelector("#inputPasswordHelp");
 var senhaMeter = document.querySelector("#passStrengthMeter");
-var senhaMeterMensagem = document.querySelector("#inputResult");
+var form = document.querySelector("#singleForm");
+var resultado = document.querySelector("#inputResult");
 
 
 
@@ -38,7 +39,7 @@ function validarNome(e){
 
     if(e.target.value.trim().match(regexNome)==null){
         //muda o conteúdo e o estilo do objeto nomeHelp que referencia o elemento html com id=inputNameHelp
-        nomeHelp.textContent = "Formato de nome inválido"; 
+        nomeHelp.textContent = "Nome inválido"; 
         nomeHelp.style.color="red";
     }
     else{
@@ -73,26 +74,26 @@ function validarSenha(e){
     console.log(e.target.value);
     if(stringSenha.includes(nome.value) === true || stringSenha.includes(ano.value) === true || stringSenha.trim().match(regexSenha)==null){
         
-        senhaHelp.textContent = "Formato de senha inválido";
+        senhaHelp.textContent = "Senha inválida";
         senhaHelp.style.color = "red";
         senhaMeter.value = 0;
-        senhaMeterMensagem.textContent = ""
+        senhaHelp.textContent = ""
     }
     else{
         if(stringSenha.trim().match(regexForte)){
 
             senhaMeter.value = 30;
-            senhaMeterMensagem.textContent = "Senha forte!"
+            senhaHelp.textContent = "Senha forte!"
         }
         else if(stringSenha.trim().match(regexModerada)){
 
             senhaMeter.value = 20;
-            senhaMeterMensagem.textContent = "Senha moderada."
+            senhaHelp.textContent = "Senha moderada."
         }
         else{
 
             senhaMeter.value = 10;
-            senhaMeterMensagem.textContent = "Senha fraca, considere escolher outra."
+            senhaHelp.textContent = "Senha fraca, considere escolher outra."
         }
         console.log(e.target.value);
         senhaHelp.textContent = "";
@@ -115,7 +116,7 @@ ano.addEventListener("focusout", () => {
 
     if(anoTrimado.match(regexAno)==null){
         //muda o conteúdo e o estilo do objeto nomeHelp que referencia o elemento html com id=inputYearHelp
-        anoHelp.textContent = "Formato de ano inválido";
+        anoHelp.textContent = "Ano inválido";
         anoHelp.style.color="red";
     }
     else{
@@ -139,6 +140,28 @@ ano.addEventListener("focusout", () => {
         }        
         
     }
+});
+
+// Função para verificar todos os campos
+function verificarCampos() {
+    validarNome({target: nome});
+    validarEmail({target: email});
+    validarSenha({target: senha});
+    ano.dispatchEvent(new Event('focusout'));
+    
+    return nomeHelp.textContent === "" && emailHelp.textContent === "" &&
+           senhaHelp.textContent === "" && anoHelp.textContent === "";
 }
-);
+
+// Adicionando evento ao botão de envio do formulário
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    if (verificarCampos()) {
+        resultado.textContent = "Seus dados foram registrados";
+        resultado.style.color = "green";
+    } else {
+        resultado.textContent = "Seus dados não foram registrados";
+        resultado.style.color = "red";
+    }
+});
 

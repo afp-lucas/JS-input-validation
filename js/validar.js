@@ -76,27 +76,27 @@ function validarSenha(e){
         
         senhaHelp.textContent = "Senha inválida";
         senhaHelp.style.color = "red";
-        senhaMeter.value = 0;
-        senhaHelp.textContent = ""
     }
     else{
         if(stringSenha.trim().match(regexForte)){
 
             senhaMeter.value = 30;
             senhaHelp.textContent = "Senha forte!"
+            senhaHelp.style.color = "green";
         }
         else if(stringSenha.trim().match(regexModerada)){
 
             senhaMeter.value = 20;
             senhaHelp.textContent = "Senha moderada."
+            senhaHelp.style.color = "orange";
         }
         else{
 
             senhaMeter.value = 10;
             senhaHelp.textContent = "Senha fraca, considere escolher outra."
+            senhaHelp.style.color = "red";
         }
         console.log(e.target.value);
-        senhaHelp.textContent = "";
     }
 
 
